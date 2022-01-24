@@ -15,14 +15,14 @@ const NavBar = () => {
   const total = transactions.reduce((acc, {amount}) => acc += Number(amount), 0)
 
   const display = (amount) => {
-    const positiveResult = Number(amount) > 1000 ? <span className="p-2 bg-primary text-white">{Number(amount).toLocaleString('en-US', {     
+    const positiveResult = Number(amount) > 1000 ? <span className="p-2 bg-primary text-white rounded">{Number(amount).toLocaleString('en-US', {     
       style: 'currency',     
       currency: 'USD',     
-      currencyDisplay: 'symbol'})}</span> : <span className="p-2 bg-success text-white">{Number(amount).toLocaleString('en-US', {     
+      currencyDisplay: 'symbol'})}</span> : <span className="p-2 bg-success text-white rounded">{Number(amount).toLocaleString('en-US', {     
         style: 'currency',     
         currency: 'USD',     
         currencyDisplay: 'symbol'})}</span>
-    return Number(amount) > 0 ? positiveResult : <span className="p-2 bg-danger text-white">{Number(amount).toLocaleString('en-US', {     
+    return Number(amount) > 0 ? positiveResult : <span className="p-2 bg-danger text-white rounded">{Number(amount).toLocaleString('en-US', {     
         style: 'currency',     
         currency: 'USD',     
         currencyDisplay: 'symbol'})}</span>
