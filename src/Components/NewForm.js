@@ -73,11 +73,11 @@ const NewForm = () => {
     const addTransaction = (newTransaction) => {
         axios.post(`${URL}/transactions`, newTransaction)
         .then(() => navigate("/transactions"))
+        .catch((c) => console.error("catch", c))
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(transaction)
         addTransaction(transaction)
     };
 

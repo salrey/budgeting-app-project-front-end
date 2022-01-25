@@ -11,7 +11,8 @@ const Details = () => {
     useEffect(() => {
         axios.get(URL+"/transactions/"+index)
         .then((response) => setTransaction(response.data))
-    }, [URL, index])
+        .catch(() => { navigate("/not-found")})
+    }, [URL, index, navigate])
 
     const deleteTransaction = () => {
         axios.delete(`${URL}/transactions/${index}`)
@@ -38,7 +39,7 @@ const Details = () => {
 
     const formatDate = (date) => {
         const utcDate = new Date(date)
-        const [ month, day, year ] = [ utcDate.getMonth()+1, utcDate.getDate(), utcDate.getFullYear()]
+        const [ month, day, year ] = [ utcDate.getMonth()+1, utcDate.getUTCDate(), utcDate.getFullYear()]
         return `${month} / ${day} / ${year}`
     } 
 

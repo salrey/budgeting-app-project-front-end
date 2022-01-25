@@ -17,7 +17,7 @@ const Format = ({ transaction }) => {
 
   const formatDate = (date) => {
     const utcDate = new Date(date)
-    const [ month, day, year ] = [ utcDate.getMonth()+1, utcDate.getDate(), utcDate.getFullYear()]
+    const [ month, day, year ] = [ utcDate.getMonth()+1, utcDate.getUTCDate(), utcDate.getFullYear()]
     return `${month} / ${day} / ${year}`
   } 
   return (
