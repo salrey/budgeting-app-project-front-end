@@ -148,7 +148,7 @@ const NewForm = () => {
                     />
                     <label htmlFor="amount">Amount:</label>
                 </div>
-                <div className="justify-content ">
+                <div className="">
                     <label className="col-md-auto mb-3" htmlFor="category">
                         <select onChange={handleTextChange} className="form-control-sm bg-warning text-muted m-2" name="category" id="category" required>
                             <option className="dropdown-item" value="">---choose a category---</option>
