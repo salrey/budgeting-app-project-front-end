@@ -16,7 +16,8 @@ const Details = () => {
 
     const deleteTransaction = () => {
         axios.delete(`${URL}/transactions/${index}`)
-        .then(() => navigate("/transactions"));
+        .then(() => navigate("/transactions"))
+        .catch((e) => console.error(e));
     };
 
     const handleDelete = () => {
@@ -24,10 +25,10 @@ const Details = () => {
     };
 
     const display = (amount) => {
-        const positiveResult = Number(amount) > 1000 ? <span className="col p-2 bg-primary text-white">{Number(amount).toLocaleString('en-US', {     
+        const positiveResult = Number(amount) > 1000 ? <span className="col p-2 bg-success text-white">{Number(amount).toLocaleString('en-US', {     
             style: 'currency',     
             currency: 'USD',     
-            currencyDisplay: 'symbol'})}</span> : <span className="col p-2 bg-success text-white">{Number(amount).toLocaleString('en-US', {     
+            currencyDisplay: 'symbol'})}</span> : <span className="col p-2 bg-light text-dark">{Number(amount).toLocaleString('en-US', {     
                 style: 'currency',     
                 currency: 'USD',     
                 currencyDisplay: 'symbol'})}</span>
@@ -58,7 +59,7 @@ const Details = () => {
                 <p className="row mb-4"><span className="col p-2 bg-secondary text-white">{transaction.category}</span>{type(transaction.type)} {display(transaction.amount)} </p>
                 <hr className=""></hr>
             </div>
-            <div className="showNavigation btn-group mt-2 gap-3">
+            <div className="showNavigation btn-group mt-2 gap-3 container justify-content-between" style={{overflowX: "scroll"}}>
                 <div>
                 {" "}
                 <Link to={`/transactions`}>

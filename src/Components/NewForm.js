@@ -83,7 +83,7 @@ const NewForm = () => {
 
 
     return (
-        <div className="New container p-5 my-5 bg-warning text-dark rounded">
+        <div className="New container p-5 my-5 bg-warning text-dark rounded" style={{overflowX: "scroll"}}>
             <h2 className="text-white mb-5">New Transaction</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-2 mt-2">

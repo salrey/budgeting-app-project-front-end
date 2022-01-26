@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 const Format = ({ transaction }) => {
   const display = (amount) => {
-    const positiveResult = Number(amount) > 1000 ? <span className="col-2 float-end badge bg-primary text-truncate mt-1">{Number(amount).toLocaleString('en-US', {     
+    const positiveResult = Number(amount) > 1000 ? <span className="col-2 float-end p-2 bg-success text-nowrap text-white mt-1" style={{overflowX: "scroll"}}>{Number(amount).toLocaleString('en-US', {     
       style: 'currency',     
       currency: 'USD',     
-      currencyDisplay: 'symbol'})}</span> : <span className="col-2 float-end badge bg-success text-truncate mt-1">{Number(amount).toLocaleString('en-US', {     
+      currencyDisplay: 'symbol'})}</span> : <span className="col-2 float-end p-2 bg-primary text-nowrap text-white mt-1" style={{overflowX: "scroll"}}>{Number(amount).toLocaleString('en-US', {     
         style: 'currency',     
         currency: 'USD',     
         currencyDisplay: 'symbol'})}</span>
-    return Number(amount) > 0 ? positiveResult : <span className="col-2 float-end badge bg-danger text-truncate mt-1">{Number(amount).toLocaleString('en-US', {     
+    return Number(amount) > 0 ? positiveResult : <span className="col-2 float-end p-2 bg-danger text-no-wrap text-white mt-1" style={{overflowX: "scroll"}}>{Number(amount).toLocaleString('en-US', {     
         style: 'currency',     
         currency: 'USD',     
         currencyDisplay: 'symbol'})}</span>
@@ -23,7 +23,7 @@ const Format = ({ transaction }) => {
   return (
       <tr className="Transaction rounded mb-3">
           <td className="row">
-            <Link className="list-group-item list-group-item-action" to={`/transactions/${transaction.id}`}><span className="col-2 float-start badge bg-secondary text-truncate text-white mt-1">{formatDate(transaction.date)}</span><span className="col-7 badge bg-outline-secondary text-dark text-truncate ms-2 me-2 pt-2">{transaction.title}</span> {display(transaction.amount)}</Link>
+            <Link className="list-group-item list-group-item-action" to={`/transactions/${transaction.id}`}><span className="col-2 float-start p-2 bg-secondary text-nowrap text-white mt-1" style={{overflowX: "scroll"}}>{formatDate(transaction.date)}</span><span className="col-7 bg-outline-secondary text-dark text-nowrap d-inline-flex justify-content-center ms-2 me-2" style={{overflowX: "scroll"}}>{transaction.title}</span> {display(transaction.amount)}</Link>
           </td>
       </tr>
   );

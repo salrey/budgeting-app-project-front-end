@@ -24,22 +24,21 @@ const EditForm = () => {
         type: ""
     });
 
-    // useEffect(() => {
-    //     axios.get(`${URL}/transactions/${index}`)
-    //     .then((response) => setTransaction(response.data))
-        
-    // }, [URL, index])
-
+    //Instead of useEffect use async/await to run two things w/o dependencies
     const fetchData = async () => {
-        const response = await axios.get(`${URL}/transactions/${index}`) 
-        setTransaction(response.data)
-        setCheckbox({
-            text: response.data.type === "Income" ? "Income" : "Expense",
-            classList: response.data.type === "Income" ? "col list-group-item form-check-label border border-primary bg-primary text-white fs-2 rounded" : "col list-group-item form-check-label border border-danger bg-danger text-white fs-2 rounded",
-            checked: response.data.type === "Income" ? false : true,
-            min: response.data.type === "Income" ? 0 : "",
-            max: response.data.type === "Income" ? "" : 0,
-        })
+        try {
+            const response = await axios.get(`${URL}/transactions/${index}`)
+            setTransaction(response.data)
+            setCheckbox({
+                text: response.data.type === "Income" ? "Income" : "Expense",
+                classList: response.data.type === "Income" ? "col list-group-item form-check-label border border-primary bg-primary text-white fs-2 rounded" : "col list-group-item form-check-label border border-danger bg-danger text-white fs-2 rounded",
+                checked: response.data.type === "Income" ? false : true,
+                min: response.data.type === "Income" ? 0 : "",
+                max: response.data.type === "Income" ? "" : 0,
+            })
+        } catch(err) {
+            alert(err) //> TypeError: failed to fetch
+        }
     }
     !transaction.type && fetchData()
     
@@ -92,7 +91,8 @@ const EditForm = () => {
 
     const updateTransaction = (editedTransaction) => {
         axios.put(`${URL}/transactions/${index}`, editedTransaction)
-        .then(() => navigate(`/transactions/${index}`));
+        .then(() => navigate(`/transactions/${index}`))
+        .catch((c) => console.warn("catch", c));
     }
 
     const handleSubmit = (event) => {
@@ -101,7 +101,7 @@ const EditForm = () => {
     };
 
     return (
-        <div className="Edit container p-5 my-5 bg-warning text-dark rounded">
+        <div className="Edit container p-5 my-5 bg-warning text-dark rounded" style={{overflowX: "scroll"}}>
             <form onSubmit={handleSubmit}>
                 <div className="form-floating mb-2 mt-2">
                     <input
@@ -168,8 +168,9 @@ const EditForm = () => {
                 </div>
                 <label className="col-4 text-muted mb-3" htmlFor="category">
                     <select onChange={handleTextChange} className="form-control-sm bg-warning text-muted m-2" name="category" id="category" value={transaction.category}required>
-                        <option className="dropdown-item" value="">---choose a category---</option>
+                    <option className="dropdown-item" value="">---choose a category---</option>
                         <option className="dropdown-item" value="Income">Income</option>
+                        <option className="dropdown-item" value="Expenses">Expenses</option>
                         <option className="dropdown-item" value="Taxes">Taxes</option>
                         <option className="dropdown-item" value="Retirement">Retirement</option>
                         <option className="dropdown-item" value="Savings">Savings</option>

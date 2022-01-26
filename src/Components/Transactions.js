@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Format from "./Format.js";
 import axios from "axios";
 
-const Transactions = () => {
+const Transactions = ({parentCallBack}) => {
   const [transactions, setTransactions] = useState([]);
   const [filter, setFilter] = useState({
     order: "",
@@ -12,7 +12,8 @@ const Transactions = () => {
 
   useEffect(() => {
     axios.get(`${URL}/transactions?order=${filter.order}&type=${filter.type}`)
-    .then((response) => {console.log(response.data); return setTransactions(response.data)});
+    .then((response) => { return setTransactions(response.data)})
+    .catch((e)=> {console.error("catch", e)})
   }, [URL, filter.order, filter.type]);
   
   const handleChange = (event) => {
@@ -20,12 +21,18 @@ const Transactions = () => {
   };
 
   const total = transactions.reduce((acc, {amount}) => acc += Number(amount), 0)
+  
+  //useEffect to update parentCallBack/setUpdate and pass balance up to parent component  
+  //only runs when one of its dependencies update
+  useEffect(() => {
+      parentCallBack(total)
+  }, [parentCallBack, total])
 
   const display = (amount) => {
-    const positiveResult = Number(amount) > 1000 ? <span className="p-2 bg-primary text-white">{Number(amount).toLocaleString('en-US', {     
+    const positiveResult = Number(amount) > 1000 ? <span className="p-2 bg-success text-white">{Number(amount).toLocaleString('en-US', {     
       style: 'currency',     
       currency: 'USD',     
-      currencyDisplay: 'symbol'})}</span> : <span className="p-2 bg-success text-white">{Number(amount).toLocaleString('en-US', {     
+      currencyDisplay: 'symbol'})}</span> : <span className="p-2 bg-light text-dark">{Number(amount).toLocaleString('en-US', {     
         style: 'currency',     
         currency: 'USD',     
         currencyDisplay: 'symbol'})}</span>
@@ -66,7 +73,7 @@ const Transactions = () => {
             <hr className="mt-3"></hr>
         </div>
       </form>
-      <section className="container">
+      <section className="container" style={{overflowX: "scroll"}}>
         <table className="container">
           <thead className="row"><tr className="d-flex justify-content-between text-white pb-2"><td className="col-2">Date</td><td className="col-7">Title</td><td className="col-2">Amount</td></tr></thead>
           <tbody className="row">
@@ -76,7 +83,7 @@ const Transactions = () => {
           </tbody>
         </table>
       </section>
-      <h2 className="text-end"><span className="align-middle">Total:</span> {display(total)}</h2>
+      <h2 className="text-end btn btn-outline-warning disabled "><span className="align-middle">Total:</span> {display(total)}</h2>
     </div>
   );
 }
